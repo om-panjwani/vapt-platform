@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vapt-platform"
+version = "1.0.0"
+description = "Automated Vulnerability Assessment & Reconnaissance Platform"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+    {name = "Om Panjwani", email = "ompanjwani77@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+]
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "sqlalchemy>=2.0.25",
+    "sqlmodel>=0.0.14",
+    "pydantic>=2.5.3",
+    "pydantic-settings>=2.1.0",
+    "python-multipart>=0.0.6",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "python-dotenv>=1.0.0",
+    "alembic>=1.13.0",
+    "httpx>=0.26.0",
+    "jinja2>=3.1.2",
+    "weasyprint>=60.0",
+    "lxml>=4.9.3",
+    "python-nmap>=0.7.1",
+    "rich>=13.7.0",
+    "typer>=0.9.0",
+    "structlog>=24.1.0",
+    "loguru>=0.7.2",
+    "apscheduler>=3.10.4",
+    "redis>=5.0.1",
+    "pillow>=10.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.4",
+    "pytest-asyncio>=0.23.3",
+    "pytest-cov>=4.1.0",
+    "httpx>=0.26.0",
+    "faker>=22.0.0",
+    "black>=23.12.0",
+    "ruff>=0.1.15",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["backend*", "scanner*", "vulnerability_engine*", "database*", "reports*", "frontend*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+select = ["E", "F", "I", "UP", "W", "C90", "ANN", "B", "SIM", "RET", "PERF"]
+ignore = ["ANN101", "ANN102", "S101", "B008"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.alembic]
+script_location = "database/migrations"

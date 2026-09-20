@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAPT Platform - Automated Vulnerability Assessment & Reconnaissance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="currentColor"/>
+                        <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" stroke="white" stroke-width="2" fill="none"/>
+                        <circle cx="16" cy="16" r="4" fill="white"/>
+                    </svg>
+                    <span class="logo-text">VAPT Platform</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#projects" class="nav-item" data-page="projects">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>Projects</span>
+                </a>
+                <a href="#scans" class="nav-item" data-page="scans">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    <span>Scans</span>
+                </a>
+                <a href="#findings" class="nav-item" data-page="findings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span>Findings</span>
+                </a>
+                <a href="#reports" class="nav-item" data-page="reports">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="version-info">
+                    <span>v1.0.0</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content" id="mainContent">
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                    <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb"></nav>
+                </div>
+                <div class="top-bar-right">
+                    <div class="search-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" placeholder="Search projects, targets, findings..." id="globalSearch">
+                    </div>
+                    <button class="btn btn-primary" id="newProjectBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>New Project</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="page-content" id="pageContent">
+                <!-- Dashboard Page -->
+                <section id="dashboard-page" class="page active">
+                    <div class="stats-grid" id="statsGrid"></div>
+
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Recent Projects</h2>
+                                <a href="#projects" class="card-action">View All</a>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="recentProjectsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Status</th>
+                                            <th>Targets</th>
+                                            <th>Scans</th>
+                                            <th>Critical</th>
+                                            <th>High</th>
+                                            <th>Last Updated</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Recent Activity</h2>
+                                <a href="#activity" class="card-action">View All</a>
+                            </div>
+                            <div class="activity-list" id="activityList"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Projects Page -->
+                <section id="projects-page" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Projects</h1>
+                            <p class="page-subtitle">Manage security assessment projects</p>
+                        </div>
+                        <button class="btn btn-primary" id="createProjectBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            New Project
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="table-container">
+                            <table class="data-table" id="projectsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Targets</th>
+                                        <th>Scans</th>
+                                        <th>Findings</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Project Detail Page -->
+                <section id="project-detail-page" class="page">
+                    <div class="page-header">
+                        <div>
+                            <nav class="breadcrumb" id="projectBreadcrumb"></nav>
+                            <h1 id="projectDetailTitle">Project Details</h1>
+                            <p class="page-subtitle" id="projectDetailSubtitle"></p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn btn-secondary" id="newTargetBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Add Target
+                            </button>
+                            <button class="btn btn-primary" id="newScanBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                                New Scan
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid" id="projectStatsGrid"></div>
+
+                    <div class="tabs" id="projectTabs">
+                        <button class="tab-btn active" data-tab="targets">Targets</button>
+                        <button class="tab-btn" data-tab="scans">Scans</button>
+                        <button class="tab-btn" data-tab="hosts">Hosts</button>
+                        <button class="tab-btn" data-tab="findings">Findings</button>
+                        <button class="tab-btn" data-tab="reports">Reports</button>
+                    </div>
+
+                    <div class="tab-panels">
+                        <div class="tab-panel active" id="targetsPanel">
+                            <div class="table-container">
+                                <table class="data-table" id="targetsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Host</th>
+                                            <th>Type</th>
+                                            <th>Allowed Ports</th>
+                                            <th>Authorized</th>
+                                            <th>Created</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="scansPanel">
+                            <div class="table-container">
+                                <table class="data-table" id="scansTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Port Range</th>
+                                            <th>Status</th>
+                                            <th>Progress</th>
+                                            <th>Hosts</th>
+                                            <th>Started</th>
+                                            <th>Completed</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="hostsPanel">
+                            <div class="table-container">
+                                <table class="data-table" id="hostsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>IP</th>
+                                            <th>Hostname</th>
+                                            <th>OS</th>
+                                            <th>Open Ports</th>
+                                            <th>Services</th>
+                                            <th>Status</th>
+                                            <th>Discovered</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="findingsPanel">
+                            <div class="findings-filters">
+                                <select id="severityFilter">
+                                    <option value="">All Severities</option>
+                                    <option value="critical">Critical</option>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                    <option value="informational">Informational</option>
+                                </select>
+                                <select id="statusFilter">
+                                    <option value="">All Statuses</option>
+                                    <option value="needs_validation">Needs Validation</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="false_positive">False Positive</option>
+                                    <option value="remediated">Remediated</option>
+                                </select>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table" id="projectFindingsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Severity</th>
+                                            <th>Title</th>
+                                            <th>Host</th>
+                                            <th>Port</th>
+                                            <th>Category</th>
+                                            <th>Status</th>
+                                            <th>Confidence</th>
+                                            <th>Created</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="reportsPanel">
+                            <div class="table-container">
+                                <table class="data-table" id="reportsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Format</th>
+                                            <th>Status</th>
+                                            <th>Generated</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="page-actions">
+                                <button class="btn btn-primary" id="generateReportBtn">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                    Generate Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Scans Page -->
+                <section id="scans-page" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Scans</h1>
+                            <p class="page-subtitle">Manage and monitor security scans</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="table-container">
+                            <table class="data-table" id="allScansTable">
+                                <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Name</th>
+                                        <th>Target</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Progress</th>
+                                        <th>Hosts</th>
+                                        <th>Started</th>
+                                        <th>Completed</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Findings Page -->
+                <section id="findings-page" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>All Findings</h1>
+                            <p class="page-subtitle">View and manage security findings across all projects</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="findings-filters">
+                            <select id="globalSeverityFilter">
+                                <option value="">All Severities</option>
+                                <option value="critical">Critical</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="informational">Informational</option>
+                            </select>
+                            <select id="globalStatusFilter">
+                                <option value="">All Statuses</option>
+                                <option value="needs_validation">Needs Validation</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="false_positive">False Positive</option>
+                                <option value="remediated">Remediated</option>
+                            </select>
+                            <input type="text" placeholder="Search findings..." id="findingsSearch" class="filter-input">
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="allFindingsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Severity</th>
+                                        <th>Title</th>
+                                        <th>Host</th>
+                                        <th>Port</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Confidence</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reports Page -->
+                <section id="reports-page" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Reports</h1>
+                            <p class="page-subtitle">Generated security assessment reports</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="table-container">
+                            <table class="data-table" id="allReportsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Name</th>
+                                        <th>Format</th>
+                                        <th>Status</th>
+                                        <th>Generated</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Scan Detail Modal -->
+                <div class="modal" id="scanDetailModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Scan Details</h2>
+                            <button class="modal-close" id="scanDetailClose">&times;</button>
+                        </div>
+                        <div class="modal-body" id="scanDetailBody"></div>
+                    </div>
+                </div>
+
+                <!-- Finding Detail Modal -->
+                <div class="modal" id="findingDetailModal">
+                    <div class="modal-content modal-large">
+                        <div class="modal-header">
+                            <h2 id="findingDetailTitle">Finding Details</h2>
+                            <button class="modal-close" id="findingDetailClose">&times;</button>
+                        </div>
+                        <div class="modal-body" id="findingDetailBody"></div>
+                    </div>
+                </div>
+
+                <!-- Create Project Modal -->
+                <div class="modal" id="createProjectModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Create New Project</h2>
+                            <button class="modal-close" id="createProjectClose">&times;</button>
+                        </div>
+                        <form id="createProjectForm">
+                            <div class="form-group">
+                                <label for="projectName">Project Name *</label>
+                                <input type="text" id="projectName" name="name" required placeholder="e.g., External Network Assessment Q1 2024">
+                            </div>
+                            <div class="form-group">
+                                <label for="projectDescription">Description</label>
+                                <textarea id="projectDescription" name="description" rows="3" placeholder="Brief description of the assessment scope and objectives"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="createProjectCancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create Project</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Create Target Modal -->
+                <div class="modal" id="createTargetModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Add Target</h2>
+                            <button class="modal-close" id="createTargetClose">&times;</button>
+                        </div>
+                        <form id="createTargetForm">
+                            <input type="hidden" id="targetProjectId" name="project_id">
+                            <div class="form-group">
+                                <label for="targetHost">Target Host *</label>
+                                <input type="text" id="targetHost" name="host" required placeholder="e.g., 192.168.1.0/24 or example.com">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="targetType">Host Type</label>
+                                    <select id="targetType" name="host_type">
+                                        <option value="ip">IP Address/Range</option>
+                                        <option value="domain">Domain Name</option>
+                                        <option value="cidr">CIDR Notation</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="targetPorts">Allowed Ports</label>
+                                    <input type="text" id="targetPorts" name="allowed_ports" value="1-65535" placeholder="e.g., 1-1000,80,443,8080-8090">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="targetExcludedPorts">Excluded Ports</label>
+                                <input type="text" id="targetExcludedPorts" name="excluded_ports" placeholder="Ports to exclude from scanning">
+                            </div>
+                            <div class="form-group">
+                                <label for="targetScopeNotes">Scope Notes</label>
+                                <textarea id="targetScopeNotes" name="scope_notes" rows="2" placeholder="Additional scope restrictions or notes"></textarea>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="targetAuthorized" name="is_authorized" checked>
+                                <label for="targetAuthorized">Target is authorized for testing</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="createTargetCancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Add Target</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Create Scan Modal -->
+                <div class="modal" id="createScanModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Create New Scan</h2>
+                            <button class="modal-close" id="createScanClose">&times;</button>
+                        </div>
+                        <form id="createScanForm">
+                            <input type="hidden" id="scanProjectId" name="project_id">
+                            <div class="form-group">
+                                <label for="scanName">Scan Name *</label>
+                                <input type="text" id="scanName" name="name" required placeholder="e.g., Full TCP Port Scan">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="scanTarget">Target *</label>
+                                    <select id="scanTarget" name="target_id" required></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="scanType">Scan Type</label>
+                                    <select id="scanType" name="scan_type">
+                                        <option value="tcp_connect">TCP Connect (-sT)</option>
+                                        <option value="tcp_syn">TCP SYN (-sS)</option>
+                                        <option value="udp">UDP (-sU)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="scanPorts">Port Range</label>
+                                    <input type="text" id="scanPorts" name="port_range" value="1-65535" placeholder="e.g., 1-1000,80,443">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="scanNseScripts">NSE Scripts (comma-separated)</label>
+                                <input type="text" id="scanNseScripts" name="nse_scripts" placeholder="http-enum,http-title,ssl-cert,smb-protocols">
+                                <small class="form-help">Allowed: http-enum, http-title, http-methods, ssl-cert, smb-protocols, ssh2-enum-algos, dns-zone-transfer, ftp-anon, smtp-commands</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="scanArgs">Additional Nmap Arguments</label>
+                                <input type="text" id="scanArgs" name="arguments" placeholder="e.g., -T4 --version-intensity 7">
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="createScanCancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create Scan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Generate Report Modal -->
+                <div class="modal" id="generateReportModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Generate Report</h2>
+                            <button class="modal-close" id="generateReportClose">&times;</button>
+                        </div>
+                        <form id="generateReportForm">
+                            <input type="hidden" id="reportProjectId" name="project_id">
+                            <div class="form-group">
+                                <label for="reportName">Report Name *</label>
+                                <input type="text" id="reportName" name="name" required placeholder="e.g., Q1 2024 External Assessment Report">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reportFormat">Format</label>
+                                    <select id="reportFormat" name="format">
+                                        <option value="html">HTML</option>
+                                        <option value="pdf">PDF</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportExecutiveSummary">Executive Summary</label>
+                                <textarea id="reportExecutiveSummary" name="executive_summary" rows="4" placeholder="Optional custom executive summary"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportMethodology">Methodology</label>
+                                <textarea id="reportMethodology" name="methodology" rows="4" placeholder="Optional custom methodology description"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="generateReportCancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Generate Report</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

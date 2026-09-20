@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+eggs/
+*.egg-info/
+.installed.cfg
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+
+# Docker
+.dockerinit
+
+# Reports
+reports/output/*
+!reports/.gitkeep
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swa
+
+# Testing
+.pytest_cache/
+
+# Operating system
+.DS_Store
